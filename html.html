@@ -1,0 +1,50 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>네이버 ouxiq 클래스 검색</title>
+    <style>
+        /* CSS 스타일링 */
+    </style>
+</head>
+<body>
+    <h1>네이버 ouxiq 클래스 검색</h1>
+    <form id="searchForm">
+        <input type="text" id="searchInput" placeholder="검색어를 입력하세요">
+        <button type="submit">검색</button>
+    </form>
+    <div id="searchResults">
+        <!-- 검색 결과가 여기에 표시됩니다 -->
+    </div>
+
+    <script>
+        // JavaScript 코드
+        const searchForm = document.getElementById('searchForm');
+        const searchInput = document.getElementById('searchInput');
+        const searchResults = document.getElementById('searchResults');
+
+        searchForm.addEventListener('submit', async (event) => {
+            event.preventDefault(); // 기본 동작 방지
+
+            const query = searchInput.value.trim(); // 입력된 검색어 가져오기
+
+            // AJAX를 사용하여 백엔드 서버에 검색어 전송
+            const response = await fetch(`/search?query=${query}`);
+            const data = await response.json();
+
+            // 결과를 화면에 표시
+            searchResults.innerHTML = ''; // 기존 결과 지우기
+            data.items.forEach(item => {
+                if (item.class === 'ouxiq') {
+                    const resultItem = document.createElement('div');
+                    resultItem.textContent = item.title;
+                    searchResults.appendChild(resultItem);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
